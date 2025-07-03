@@ -200,9 +200,10 @@ MetaSort_Output/
 ## 🎯 Supported File Types
 
 ### Media Files:
-- **Photos**: JPG, JPEG, PNG, HEIC, WEBP, GIF, BMP, TIFF
-- **Videos**: MP4, MOV, AVI, MKV, WMV, FLV, 3GP, M4V
-- **Raw**: CR2, NEF, ARW, DNG, ORF, PEF
+- **Photos**: JPG, JPEG, PNG, WEBP, HEIC, HEIF, BMP, TIFF, GIF, AVIF, JXL, JFIF
+- **Raw Formats**: RAW, CR2, NEF, ORF, SR2, ARW, DNG, PEF, RAF, RW2, SRW, 3FR, ERF, K25, KDC, MEF, MOS, MRW, NRW, SRF, X3F
+- **Design Files**: SVG, ICO, PSD, AI, EPS
+- **Videos**: MP4, MOV, MKV, AVI, WEBM, 3GP, M4V, MPG, MPEG, MTS, M2TS, TS, FLV, F4V, WMV, ASF, RM, RMVB, VOB, OGV, MXF, DV, DIVX, XVID
 
 ### Metadata Sources:
 - **JSON files** (Google Photos metadata)
