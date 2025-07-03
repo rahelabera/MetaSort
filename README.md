@@ -1,6 +1,9 @@
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge&logo=apache)](LICENSE.txt)
-[![macOS](https://img.shields.io/badge/macOS-supported-blue?style=for-the-badge&logo=apple&logoColor=white)](https://www.apple.com/macos/)
-[![Windows](https://img.shields.io/badge/Windows-supported-blue?style=for-the-badge&logo=windows&logoColor=white)](https://www.microsoft.com/windows/)
+[![Apache 2.0](https://img.shields.io/badge/Apache%202.0-blue?style=for-the-badge&logo=apache)](LICENSE.txt)
+&nbsp;
+[![macOS](https://img.shields.io/badge/macOS-blue?style=for-the-badge&logo=apple&logoColor=white)](https://www.apple.com/macos/)
+&nbsp;
+[![Windows](https://img.shields.io/badge/Windows-blue?style=for-the-badge&logo=windows&logoColor=white)](https://www.microsoft.com/windows/)
+&nbsp;
 [![Donate via UPI](https://img.shields.io/badge/Donate-UPI-blue?logo=googlepay&style=for-the-badge)](https://upier.vercel.app/pay/sanmith@superyes)
 
 <div align="center">
