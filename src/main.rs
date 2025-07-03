@@ -9,12 +9,16 @@ mod html_report;
 mod utils;
 mod csv_report;
 mod filename_date_guess;
+mod platform;
+mod ui;
 
 use std::io;
 use std::path::PathBuf;
 use std::fs;
 use walkdir;
 use fs_extra;
+use crate::platform::{is_exiftool_available, get_installation_instructions};
+use crate::ui::MetaSortUI;
 
 fn get_folder_size(path: &str) -> u64 {
     walkdir::WalkDir::new(path)
@@ -38,25 +42,19 @@ fn human_readable_size(size: u64) -> String {
 }
 
 fn main() {
-    println!(r#"
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃                                                                       ┃
-┃ ███╗   ███╗███████╗████████╗ █████╗ ███████╗ ██████╗ ██████╗ ████████╗┃
-┃ ████╗ ████║██╔════╝╚══██╔══╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗╚══██╔══╝┃
-┃ ██╔████╔██║█████╗     ██║   ███████║███████╗██║   ██║██████╔╝   ██║   ┃
-┃ ██║╚██╔╝██║██╔══╝     ██║   ██╔══██║╚════██║██║   ██║██╔══██╗   ██║   ┃
-┃ ██║ ╚═╝ ██║███████╗   ██║   ██║  ██║███████║╚██████╔╝██║  ██║   ██║   ┃
-┃ ╚═╝     ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ┃
-┃                                                                       ┃
-┃              MetaSort - Google Photos Takeout Organizer!              ┃
-┃                                                                       ┃
-┃                           Version 1.0                                 ┃
-┃                      Developed by Sanmith S                           ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+    MetaSortUI::print_header();
 
-
-
-"#);
+    // Check if exiftool is available
+    if !is_exiftool_available() {
+        MetaSortUI::print_error("ExifTool is not installed or not found in PATH!");
+        println!("{}", get_installation_instructions());
+        println!("\nPress Enter to exit...");
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).expect("Failed to read line");
+        return;
+    }
+    
+    MetaSortUI::print_success("ExifTool found and ready!");
     println!("\n📂 Please drag and drop your Google Photos Takeout folder here, or specify the folder path:");
     let mut input = String::new();
     io::stdin().read_line(&mut input).expect("Failed to read line");
@@ -65,13 +63,13 @@ fn main() {
     // Calculate input folder size and prompt for required space
     let folder_size = get_folder_size(input_dir);
     let required_space = folder_size * 3;
-    println!("\nThe input folder is {}.", human_readable_size(folder_size));
-    println!("MetaSort recommends at least {} of free space in the output location for safe operation.", human_readable_size(required_space));
+    MetaSortUI::print_info(&format!("Input folder size: {}", human_readable_size(folder_size)));
+    MetaSortUI::print_info(&format!("Recommended free space: {}", human_readable_size(required_space)));
     println!("Continue? (y/n)");
     let mut cont = String::new();
     io::stdin().read_line(&mut cont).expect("Failed to read line");
     if !matches!(cont.trim().to_lowercase().as_str(), "y" | "yes") {
-        println!("Aborted by user.");
+        MetaSortUI::print_warning("Aborted by user.");
         return;
     }
 
@@ -83,16 +81,25 @@ fn main() {
     let temp_dir = output_dir.join("MetaSort_temp");
 
     // Copy input folder to MetaSort_temp in output directory
-    println!("\n⏳ Copying input folder to working directory (MetaSort_temp)...");
+    MetaSortUI::print_section_header("Copying Files");
+    MetaSortUI::print_info("Copying input folder to working directory...");
+    
+    let mut ui = MetaSortUI::new();
+    let total_files = count_files_in_directory(input_dir);
+    ui.start_main_progress(total_files as u64, "Copying files");
+    
     let mut copy_options = fs_extra::dir::CopyOptions::new();
     copy_options.copy_inside = true;
     fs_extra::dir::copy(input_dir, &temp_dir, &copy_options).expect("Failed to copy input folder to output working directory");
-    println!("\n✅ Copy complete! All processing will happen in: {}", temp_dir.display());
+    
+    ui.finish_progress("Copy complete!");
+    MetaSortUI::print_success(&format!("All processing will happen in: {}", temp_dir.display()));
 
     // 1. Clean and pair media files with their JSONs (fix weird JSON names)
-    println!("\n🧹 Step 1: Cleaning and pairing media files with JSONs...");
+    MetaSortUI::print_section_header("Cleaning and Pairing Files");
+    MetaSortUI::print_info("Cleaning and pairing media files with JSONs...");
     media_cleaning::clean_json_filenames(temp_dir.to_str().unwrap());
-    println!("\n✅ JSON filename cleaning and pairing complete!");
+    MetaSortUI::print_success("JSON filename cleaning and pairing complete!");
 
     // 1b. Ask if WhatsApp/Screenshots should be separated
     println!("\nDo you want to separate WhatsApp and Screenshot images? (y/n)");
@@ -100,23 +107,25 @@ fn main() {
     io::stdin().read_line(&mut wa_sc_input).expect("Failed to read line");
     let separate_wa_sc = matches!(wa_sc_input.trim().to_lowercase().as_str(), "y" | "yes");
     if separate_wa_sc {
-        println!("✅ WhatsApp and Screenshot images will be sorted into their own folders by year/month.");
+        MetaSortUI::print_success("WhatsApp and Screenshot images will be sorted into their own folders by year/month.");
     } else {
-        println!("ℹ️  WhatsApp and Screenshot images will be treated as regular photos.");
+        MetaSortUI::print_info("WhatsApp and Screenshot images will be treated as regular photos.");
     }
     media_cleaning::ask_and_separate_whatsapp_screenshots(temp_dir.to_str().unwrap(), separate_wa_sc);
 
     // 2. Extract metadata from JSON and embed into media files
-    println!("\n🔍 Step 2: Extracting metadata from JSON and embedding into media files...");
+    MetaSortUI::print_section_header("Metadata Extraction and Embedding");
+    MetaSortUI::print_info("Extracting metadata from JSON and embedding into media files...");
     let (metadata, failed_guess_paths) = metadata_extraction::extract_metadata(temp_dir.to_str().unwrap());
     metadata_embed::embed_metadata_all(&metadata, &temp_dir);
-    println!("\n✅ Metadata extraction and embedding complete!");
+    MetaSortUI::print_success("Metadata extraction and embedding complete!");
 
     // 3. Sort files using the embedded metadata (DateTimeOriginal)
-    println!("\n📦 Step 3: Sorting files using embedded metadata...");
+    MetaSortUI::print_section_header("Sorting Files");
+    MetaSortUI::print_info("Sorting files using embedded metadata...");
     let final_output_dir = output_dir.join("MetaSort_Output");
     sort_to_folders::sort_files_to_folders(&temp_dir, &final_output_dir, &failed_guess_paths, separate_wa_sc);
-    println!("\n🎉 All done! Check your output and logs for details.");
+    MetaSortUI::print_success("All done! Check your output and logs for details.");
 
     // 4. Move technical folders into Technical Files
     let technical_dir = final_output_dir.join("Technical Files");
@@ -158,18 +167,33 @@ fn main() {
         &csv_files, &log_files, &metadata_fields,
     );
 
+    // Print summary
+    MetaSortUI::print_summary(
+        photos, videos, whatsapp, screenshots, unknown, mkv, errors,
+        &final_output_dir.to_string_lossy()
+    );
+
     // Delete MetaSort_temp folder after all processing
     if temp_dir.exists() {
         match fs_extra::dir::remove(&temp_dir) {
-            Ok(_) => println!("\n🗑️  Deleted temporary folder: {}", temp_dir.display()),
-            Err(e) => println!("\n⚠️  Could not delete temporary folder: {} (Error: {})", temp_dir.display(), e),
+            Ok(_) => MetaSortUI::print_info(&format!("Deleted temporary folder: {}", temp_dir.display())),
+            Err(e) => MetaSortUI::print_warning(&format!("Could not delete temporary folder: {} (Error: {})", temp_dir.display(), e)),
         }
     }
-    println!("\n💖 Like my work? Please consider donating: https://upier.vercel.app/pay/sanmith@superyes\n");
+    
+    MetaSortUI::print_footer();
 }
 
 fn count_files(dir: &PathBuf) -> usize {
     walkdir::WalkDir::new(dir)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter(|e| e.path().is_file())
+        .count()
+}
+
+fn count_files_in_directory(path: &str) -> usize {
+    walkdir::WalkDir::new(path)
         .into_iter()
         .filter_map(Result::ok)
         .filter(|e| e.path().is_file())

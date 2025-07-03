@@ -69,6 +69,7 @@ a:hover {{ color: #3aafa9; text-decoration: underline; }}\
 </head>\
 <body>\
 <div class='header'>\
+  <img src='assets/logo.png' alt='MetaSort Logo' style='width:120px;display:block;margin:0 auto 1em auto;'>\
   <h1>📊 MetaSort <span style='font-size:0.7em;font-weight:400;'>Summary Report</span></h1>\
   <div style='font-size:1.2em;'>Your Google Photos Takeout, beautifully organized! ✨</div>\
 </div>\

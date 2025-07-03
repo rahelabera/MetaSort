@@ -1,12 +1,12 @@
 use std::path::{Path, PathBuf};
 use std::io;
 use std::fs;
-use std::process::Command;
 use chrono::Datelike;
 use crate::csv_report;
 use crate::utils::log_to_file;
 use std::io::Write;
 use serde_json;
+use crate::platform::get_exiftool_command;
 
 /// Main function to organize files into folders by type and date.
 pub fn sort_files_to_folders(input_dir: &Path, output_dir: &Path, failed_guess_paths: &Vec<PathBuf>, separate_wa_sc: bool) {
@@ -45,7 +45,7 @@ pub fn sort_files_to_folders(input_dir: &Path, output_dir: &Path, failed_guess_p
         if path.is_file() {
             let ext = path.extension().and_then(|e| e.to_str()).unwrap_or("").to_lowercase();
             // Use exiftool to get DateTimeOriginal, MIMEType, ImageSize
-            let output = Command::new("exiftool")
+            let output = get_exiftool_command()
                 .arg("-DateTimeOriginal")
                 .arg("-MIMEType")
                 .arg("-ImageSize")

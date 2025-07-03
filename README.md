@@ -1,169 +1,415 @@
-# <img src="https://i.ibb.co/67J3jp0p/upi.png" alt="Donate UPI" width="120" align="left" />
-
-# MetaSort v1.0.0 – Google Photos Takeout Organizer
-
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE.txt)
+[![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows-blue.svg)](https://github.com/iamsanmith/MetaSort)
 [![Donate via UPI](https://img.shields.io/badge/Donate-UPI-blue?logo=googlepay&style=for-the-badge)](https://upier.vercel.app/pay/sanmith@superyes)
 
----
-
-<p align="center">
-  <img src="https://i.ibb.co/67J3jp0p/upi.png" alt="UPI QR" width="140" style="margin-bottom: 0.5em;"/>
-</p>
-
-<h3 align="center">
-  🚀✨ <b>MetaSort</b> is your all-in-one, lightning-fast, emoji-powered tool for <br> decluttering and organizing your <b>Google Photos Takeout</b> (or any messy media folder) on macOS!<br>
-  <br>
-  🧹 Cleans, 📦 sorts, 🏷️ embeds metadata, and 📑 generates beautiful reports—all in one go!
-</h3>
+<div align="center">
+  <img src="assets/logo.png" alt="MetaSort Logo" width="120"/>
+  <h1>MetaSort v1.0.0</h1>
+  <h3>🚀 Google Photos Takeout Organizer</h3>
+  <p><em>Transform your messy Google Photos Takeout into beautifully organized media libraries!</em></p>
+</div>
 
 ---
 
-**MetaSort** is a blazing-fast, user-friendly tool for organizing your Google Photos Takeout exports (or any messy media folder). It cleans, sorts, embeds metadata, and generates beautiful reports—all in one go!
+## 🎯 What is MetaSort?
+
+**MetaSort** is your all-in-one solution for organizing Google Photos Takeout exports (or any messy media folder). It's lightning-fast, user-friendly, and works on both macOS and Windows.
+
+### ✨ What MetaSort Does:
+- 🧹 **Cleans up filenames** and removes .json clutter
+- 📅 **Extracts dates** from filenames, JSON metadata, or file timestamps
+- 🏷️ **Embeds metadata** (date, camera, GPS) directly into your photos/videos
+- 📦 **Sorts everything** into organized folders by year/month/type
+- 💬 **Separates WhatsApp & Screenshots** (optional)
+- 📊 **Generates beautiful reports** (CSV + HTML)
+- 🎨 **Beautiful UI** with progress bars and emoji-rich feedback
 
 ---
 
-## 🚀 Installation (macOS)
+## 🚀 Quick Start (5 Minutes)
 
-1. **Install Rust (if not already):**
-   ```sh
-   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-   # Follow the prompts, then restart your terminal
+### For Non-Technical Users:
+
+#### macOS:
+1. **Download MetaSort** from GitHub
+2. **Open Terminal** and run:
+   ```bash
+   ./scripts/build_macos.sh
    ```
-2. **Install exiftool (required):**
-   ```sh
-   brew install exiftool
-   ```
-   > MetaSort requires [exiftool](https://exiftool.org/) for metadata extraction and embedding.
-3. **Clone this repo:**
-   ```sh
-   git clone https://github.com/iamsanmith/MetaSort.git
-   cd MetaSort_v1.0.0
-   ```
-4. **Build the project:**
-   ```sh
-   cargo build --release
-   ```
-5. **Run MetaSort:**
-   ```sh
-   cargo run --release
-   ```
+3. **Double-click** `Run_MetaSort.command` to start!
 
-> **Note:** MetaSort is designed for macOS. Linux may work, but is untested. Windows is not supported. 
+#### Windows:
+1. **Download MetaSort** from GitHub
+2. **Right-click** `scripts/install_windows.bat` → "Run as administrator"
+3. **Follow the prompts** - it will install everything automatically!
 
----
-
-## 💡 Features
-
-- 🧹 **Cleans .json Filenames and organizes** your Google Photos Takeout or any media folder
-- 💬 **Separates WhatsApp and Screenshot images** (optional)
-- 🏷️ **Corrects file types and names** (even if Google/your phone got it wrong)
-- 🔍 **Extracts all available metadata** from JSON (date, camera, GPS, and more)
-- ✍️ **Embeds original date, camera, GPS, etc.** into your photos/videos
-- 📦 **Sorts everything into neat folders** by year/month/type
-- 📑 **Generates CSV and HTML summary reports**
-- 📊 **Emoji-rich logs and progress bars** for every step
-- 🛠️ **Modular, maintainable codebase**
-
----
-
-## 🖥️ Usage
-
-1. **Run MetaSort:**
-   ```sh
-   cargo run --release
-   ```
-2. **Follow the prompts:**
-   - Drag and drop your Google Photos Takeout folder (or any media folder).
-   - Choose whether to separate WhatsApp/Screenshot images.
-   - Choose how to embed metadata (from JSON or filename for WhatsApp/Screenshot).
-   - Specify an output directory for sorted files and reports.
-3. **Check your output:**
-   - Sorted media in `MetaSort_Output/Media Files/`
-   - Technical files, logs, and CSVs in `MetaSort_Output/Technical Files/`
-   - Beautiful HTML summary report at the end
-
----
-
-## 🗂️ Project Structure
-
-```
-MetaSort_v1.0.0/
-│
-├── src/
-│   ├── main.rs                # Orchestrates the workflow
-│   ├── media_cleaning.rs      # Cleaning, WhatsApp/Screenshot separation, type correction
-│   ├── metadata_extraction.rs # Extracts metadata from JSON
-│   ├── metadata_embed.rs      # Embeds metadata into media files
-│   ├── sort_to_folders.rs     # Sorts files and generates CSVs
-│   ├── csv_report.rs          # CSV report generation
-│   ├── html_report.rs         # HTML summary report generation
-│   └── utils.rs               # Logging and helpers
-├── assets/
-│   └── upi.png                # UPI QR for donations
-├── Cargo.toml
-├── README.md
+### For Developers:
+```bash
+# Clone and build
+git clone https://github.com/iamsanmith/MetaSort.git
+cd MetaSort
+cargo build --release
+cargo run --release
 ```
 
 ---
 
-## 🗓️ Supported Filename Date Guessing Patterns
+## 💙 Support & Donations
 
-MetaSort can extract dates from a huge variety of filename formats, including those from popular phones, cameras, and apps such as:
-
-- **WhatsApp:**
-  - `IMG-20220101-WA0001.jpg` → `2022:01:01 00:00:00`
-  - `WhatsApp Image 2022-01-01 at 12.34.56.jpg` → `2022:01:01 12:34:56`
-- **Screenshots:**
-  - `Screenshot_2023-01-01-12-00-00.png` → `2023:01:01 12:00:00`
-  - `Screen Shot 2023-01-01 at 12.00.00.png` → `2023:01:01 12:00:00`
-  - `Screenshot_20230101-120000.png` → `2023:01:01 12:00:00`
-  - `Screenshot_2023-01-01-12-34-56-123.png` → `2023:01:01 12:34:56`
-- **Samsung/Google/Android:**
-  - `20230101_123456.jpg` → `2023:01:01 12:34:56`
-  - `2023-01-01 12.34.56.jpg` → `2023:01:01 12:34:56`
-  - `20230101-123456.jpg` → `2023:01:01 12:34:56`
-  - `2023-01-01_12-34-56.jpg` → `2023:01:01 12:34:56`
-  - `2023.01.01_12.34.56.jpg` → `2023:01:01 12:34:56`
-  - `2023_01_01_12_34_56.jpg` → `2023:01:01 12:34:56`
-- **Google Photos/PXL:**
-  - `PXL_20230101_123456789.jpg` → `2023:01:01 12:34:56`
-- **Google/Android Video:**
-  - `VID_20230101_123456.mp4` → `2023:01:01 12:34:56`
-- **Telegram:**
-  - `photo_2023-01-01 12.00.00.jpg` → `2023:01:01 12:00:00`
-- **MIUI:**
-  - `IMG_20230101_120000.jpg` → `2023:01:01 12:00:00`
-- **Sony Camera:**
-  - `DSC01234_20230101_123456.JPG` → `2023:01:01 12:34:56`
-  - `DSC_20230101_123456.JPG` → `2023:01:01 12:34:56`
-- **Custom/Other:**
-  - `RMLmc20250531_115820_RMlmc.7` → `2025:05:31 11:58:20`
-  - `wallpaper - IMG_20240113_143213Jan 13 2024` → `2024:01:13 14:32:13`
-  - `San-1 Oct 2024.jxl` → `2024:10:01 00:00:00`
-
-...and many more! If your filename contains a date, MetaSort will likely find it. 🎯
-
-If no date is found in the filename, MetaSort will fall back to JSON metadata or mark as "Unknown Time".
-
----
-
-## 🙏 Support & Donations
-
-If MetaSort saved you hours, consider buying me a coffee through donating via UPI! Your support helps keep this project alive and free.
-
-<p align="center">
-  <img src="https://i.ibb.co/67J3jp0p/upi.png" alt="UPI QR" width="200" />
+<div align="center">
+  <img src="assets/upi.png" alt="UPI QR Code" width="200"/>
   <br/>
-  <a href="https://upier.vercel.app/pay/sanmith@superyes"><b>Donate via UPI</b></a>
-</p>
+  <a href="https://upier.vercel.app/pay/sanmith@superyes">
+    <strong>💙 Donate via UPI</strong>
+  </a>
+  <br/>
+  <em>If MetaSort saved you hours, please consider supporting the project! Every contribution, no matter how small, makes a difference and helps keep MetaSort free and actively maintained.</em>
+</div>
 
 ---
 
-## 📣 Suggestions & Contributions
+## 📋 Requirements
 
-- Found a bug? Have a feature request? Open an issue or PR!
-- Want to add more metadata fields, analytics, or a GUI? Contributions are welcome.
+### System Requirements:
+- **macOS 10.13+** or **Windows 10+**
+- **4GB RAM** (recommended)
+- **500MB free space** for the application
+
+### Dependencies:
+- **ExifTool** - For metadata extraction and embedding
+- **Rust** - For building the application
+
+> 💡 **Don't worry!** Our installation scripts handle all dependencies automatically.
 
 ---
 
-**MetaSort v1** © 2025 Sanmith S. All rights reserved. 
+## 🛠️ Detailed Installation
+
+### macOS Installation
+
+#### Option 1: Automated (Recommended)
+```bash
+# Download and extract MetaSort
+git clone https://github.com/iamsanmith/MetaSort.git
+cd MetaSort
+
+# Build and create launchers
+./scripts/build_macos.sh
+```
+
+#### Option 2: Manual Installation
+```bash
+# 1. Install Homebrew (if not installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 2. Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# Press 1 when prompted, then restart Terminal
+
+# 3. Install ExifTool
+brew install exiftool
+
+# 4. Build MetaSort
+git clone https://github.com/iamsanmith/MetaSort.git
+cd MetaSort
+cargo build --release
+```
+
+### Windows Installation
+
+#### Option 1: Automated (Recommended)
+```cmd
+# Run PowerShell installer
+powershell -ExecutionPolicy Bypass -File scripts/install_windows.ps1
+
+# Or run batch installer
+scripts/install_windows.bat
+```
+
+#### Option 2: Manual Installation
+```cmd
+# 1. Install Rust from https://rustup.rs/
+
+# 2. Install ExifTool
+winget install ExifTool.ExifTool
+
+# 3. Build MetaSort
+git clone https://github.com/iamsanmith/MetaSort.git
+cd MetaSort
+cargo build --release
+```
+
+---
+
+## 🎮 How to Use MetaSort
+
+### Step 1: Launch MetaSort
+- **macOS**: Double-click `Run_MetaSort.command`
+- **Windows**: Run `cargo run --release` or use the generated executable
+
+### Step 2: Select Your Folder
+- **Drag and drop** your Google Photos Takeout folder
+- Or **type the path** to your media folder
+- MetaSort works with any folder containing photos/videos!
+
+### Step 3: Choose Options
+- **Separate WhatsApp/Screenshots?** (Recommended: Yes)
+- **Metadata embedding method** (Recommended: Auto-detect)
+- **Output directory** (Default: `MetaSort_Output`)
+
+### Step 4: Watch the Magic! ✨
+MetaSort will:
+1. 🔍 Scan your files
+2. 🧹 Clean up filenames
+3. 📅 Extract dates
+4. 🏷️ Embed metadata
+5. 📦 Sort into folders
+6. 📊 Generate reports
+
+### Step 5: Enjoy Your Organized Media! 🎉
+- **Photos/Videos**: `MetaSort_Output/Media Files/`
+- **Reports**: `MetaSort_Output/Technical Files/`
+- **HTML Summary**: Open `MetaSort_Output/Technical Files/report.html`
+
+---
+
+## 📁 Output Structure
+
+After processing, you'll find:
+
+```
+MetaSort_Output/
+├── Media Files/
+│   ├── 2023/
+│   │   ├── 01_January/
+│   │   │   ├── Photos/
+│   │   │   ├── Videos/
+│   │   │   └── Screenshots/
+│   │   └── 02_February/
+│   └── 2024/
+├── Technical Files/
+│   ├── report.html          # Beautiful summary report
+│   ├── processing_log.csv   # Detailed processing log
+│   ├── metadata_summary.csv # Metadata statistics
+│   └── error_log.txt        # Any issues encountered
+└── Original Files/          # Backup of original structure
+```
+
+---
+
+## 🎯 Supported File Types
+
+### Media Files:
+- **Photos**: JPG, JPEG, PNG, HEIC, WEBP, GIF, BMP, TIFF
+- **Videos**: MP4, MOV, AVI, MKV, WMV, FLV, 3GP, M4V
+- **Raw**: CR2, NEF, ARW, DNG, ORF, PEF
+
+### Metadata Sources:
+- **JSON files** (Google Photos metadata)
+- **Filename patterns** (WhatsApp, Screenshots, etc.)
+- **EXIF data** (embedded in files)
+- **File timestamps** (fallback)
+
+---
+
+## 📅 Smart Date Detection
+
+MetaSort can extract dates from countless filename patterns:
+
+### 📱 Mobile Apps:
+- **WhatsApp**: `IMG-20220101-WA0001.jpg` → `2022:01:01 00:00:00`
+- **Screenshots**: `Screenshot_2023-01-01-12-00-00.png` → `2023:01:01 12:00:00`
+- **Telegram**: `photo_2023-01-01 12.00.00.jpg` → `2023:01:01 12:00:00`
+
+### 📷 Cameras & Phones:
+- **Samsung/Android**: `20230101_123456.jpg` → `2023:01:01 12:34:56`
+- **Google Photos**: `PXL_20230101_123456789.jpg` → `2023:01:01 12:34:56`
+- **Sony Camera**: `DSC01234_20230101_123456.JPG` → `2023:01:01 12:34:56`
+- **MIUI**: `IMG_20230101_120000.jpg` → `2023:01:01 12:00:00`
+
+### 🎯 Custom Patterns:
+- `wallpaper - IMG_20240113_143213Jan 13 2024` → `2024:01:13 14:32:13`
+- `San-1 Oct 2024.jxl` → `2024:10:01 00:00:00`
+- `RMLmc20250531_115820_RMlmc.7` → `2025:05:31 11:58:20`
+
+> 💡 **MetaSort is smart!** If your filename contains a date, it will likely find it!
+
+---
+
+## 🛠️ Advanced Features
+
+### 🔧 Command Line Options
+```bash
+# Run with specific options
+cargo run --release -- --help
+
+# Process specific folder
+cargo run --release -- --input "/path/to/folder"
+
+# Custom output directory
+cargo run --release -- --output "/path/to/output"
+```
+
+### 📊 Report Customization
+- **HTML Report**: Beautiful web-based summary with statistics
+- **CSV Reports**: Detailed logs for spreadsheet analysis
+- **Error Logs**: Track any issues during processing
+
+### 🔄 Batch Processing
+- Process multiple folders
+- Resume interrupted operations
+- Skip already processed files
+
+---
+
+## 🆘 Troubleshooting
+
+### Common Issues:
+
+#### "ExifTool not found"
+**macOS:**
+```bash
+brew install exiftool
+```
+
+**Windows:**
+```cmd
+winget install ExifTool.ExifTool
+```
+
+#### "Permission denied"
+**macOS:**
+```bash
+chmod +x scripts/build_macos.sh
+```
+
+**Windows:**
+- Right-click script → "Run as administrator"
+
+#### "Rust not found"
+**macOS:**
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+**Windows:**
+- Download from https://rustup.rs/
+
+#### "App won't open" (macOS)
+- Use `Run_MetaSort.command` instead of app bundles
+- Right-click → Open (if needed)
+
+### Getting Help:
+1. Check the **error logs** in `MetaSort_Output/Technical Files/`
+2. Ensure **ExifTool is installed** and accessible
+3. Try **running in terminal** for detailed error messages
+4. **Open an issue** on GitHub with error details
+
+---
+
+## 🏗️ Project Structure
+
+```
+MetaSort/
+├── 📁 src/                    # Source code
+│   ├── main.rs               # Main application
+│   ├── platform.rs           # Cross-platform compatibility
+│   ├── ui.rs                 # User interface & progress bars
+│   ├── media_cleaning.rs     # File cleaning & organization
+│   ├── metadata_extraction.rs # JSON metadata extraction
+│   ├── metadata_embed.rs     # Metadata embedding
+│   ├── sort_to_folders.rs    # File sorting & folder creation
+│   ├── csv_report.rs         # CSV report generation
+│   ├── html_report.rs        # HTML report generation
+│   ├── filename_date_guess.rs # Date extraction from filenames
+│   └── utils.rs              # Utility functions
+├── 📁 scripts/               # Build & installation scripts
+│   ├── build_macos.sh        # macOS build script
+│   ├── build_windows.bat     # Windows build script
+│   ├── install_windows.ps1   # Windows installer (PowerShell)
+│   └── install_windows.bat   # Windows installer (Batch)
+├── 📁 docs/                  # Documentation
+│   ├── SIMPLE_INSTALL.md     # Non-technical user guide
+│   └── CROSS_PLATFORM_CHANGES.md # Technical details
+├── 📁 assets/                # Resources
+│   ├── logo.png              # MetaSort logo
+│   └── upi.png               # UPI QR code
+├── 🚀 Run_MetaSort.command   # Easy launcher (macOS)
+├── 🚀 MetaSort.command       # Advanced launcher (macOS)
+├── 📄 README.md              # This file
+├── 📄 LICENSE.txt            # Apache 2.0 License
+└── 📄 Cargo.toml             # Rust project configuration
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how you can help:
+
+### 🐛 Report Bugs
+1. Check existing issues first
+2. Provide detailed error messages
+3. Include your OS and MetaSort version
+
+### 💡 Suggest Features
+1. Describe the feature clearly
+2. Explain why it would be useful
+3. Consider implementation complexity
+
+### 🔧 Submit Code
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+### 📝 Documentation
+- Improve README sections
+- Add examples
+- Fix typos or unclear instructions
+
+---
+
+## 📄 License
+
+MetaSort is licensed under the **Apache License 2.0** - see the [LICENSE.txt](LICENSE.txt) file for details.
+
+This means you can:
+- ✅ Use MetaSort for personal or commercial projects
+- ✅ Modify and distribute MetaSort
+- ✅ Use MetaSort in proprietary software
+- ✅ Distribute modified versions
+
+**Requirements:**
+- Include the original license and copyright notice
+- State any changes you made
+
+---
+
+## 🏆 Acknowledgments
+
+- **ExifTool** - For powerful metadata handling
+- **Rust Community** - For the amazing ecosystem
+- **All Contributors** - For making MetaSort better
+- **You** - For using and supporting MetaSort!
+
+---
+
+<div align="center">
+  <h3>🎉 Ready to organize your photos?</h3>
+  <p><strong>Get started with MetaSort today!</strong></p>
+  <a href="#-quick-start-5-minutes">
+    <strong>🚀 Quick Start Guide</strong>
+  </a>
+</div>
+
+---
+
+<div align="center">
+  <sub>
+    Made with ❤️ by <a href="https://github.com/iamsanmith">Sanmith S</a>
+    <br/>
+    <em>Transform your digital memories into organized treasures!</em>
+  </sub>
+</div> 

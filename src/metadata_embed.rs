@@ -1,13 +1,13 @@
 // metadata_embed.rs
 // Embedding metadata logic for MetaSort_v1.0.0 – Google Photos Takeout Organizer 
 
-use std::process::Command;
 use std::fs::{self, File};
 use std::io::{self, Write};
 use std::path::Path;
 use crate::metadata_extraction::MediaMetadata;
 use crate::filename_date_guess::extract_date_from_filename;
 use crate::utils::log_to_file;
+use crate::platform::get_exiftool_command;
 
 pub fn embed_metadata_all(metadata_list: &[MediaMetadata], log_dir: &Path) {
     let logs_dir = log_dir.join("logs");
@@ -64,7 +64,7 @@ pub fn embed_metadata_all(metadata_list: &[MediaMetadata], log_dir: &Path) {
             "File: {:?}, Used: {}, Date: {:?}, Lat: {:?}, Lon: {:?}, Alt: {:?}, Make: {:?}, Model: {:?}",
             meta.media_path.file_name().unwrap_or_default(), used, date_to_embed, meta.gps_latitude, meta.gps_longitude, meta.gps_altitude, meta.camera_make, meta.camera_model
         );
-        let status = Command::new("exiftool")
+        let status = get_exiftool_command()
             .args(&args)
             .status();
         if let Ok(status) = status {
