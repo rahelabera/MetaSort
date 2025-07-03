@@ -2,7 +2,7 @@
 &nbsp;
 [![macOS](https://img.shields.io/badge/macOS-blue?style=for-the-badge&logo=apple&logoColor=white)](https://www.apple.com/macos/)
 &nbsp;
-[![Windows](https://img.shields.io/badge/Windows-blue?style=for-the-badge&logo=windows95&logoColor=white)](https://www.microsoft.com/windows/)
+[![Windows](https://img.shields.io/badge/Windows-blue?style=for-the-badge&logo=microsoft&logoColor=white)](https://www.microsoft.com/windows/)
 &nbsp;
 [![Donate via UPI](https://img.shields.io/badge/Donate-UPI-blue?logo=googlepay&style=for-the-badge)](https://upier.vercel.app/pay/sanmith@superyes)
 
