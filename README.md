@@ -1,8 +1,8 @@
-[![Apache 2.0](https://img.shields.io/badge/Apache%202.0-blue?style=for-the-badge&logo=apache)](LICENSE.txt)
+![macOS](https://img.shields.io/badge/macOS-blue?style=flat-square&logo=apple&logoColor=white)
 &nbsp;
-[![macOS](https://img.shields.io/badge/macOS-blue?style=for-the-badge&logo=apple&logoColor=white)](https://www.apple.com/macos/)
+![Windows](https://img.shields.io/badge/Windows-blue?style=flat-square&logo=microsoft&logoColor=white)
 &nbsp;
-[![Windows](https://img.shields.io/badge/Windows-blue?style=for-the-badge&logo=microsoft&logoColor=white)](https://www.microsoft.com/windows/)
+![Linux](https://img.shields.io/badge/Linux-blue?style=flat-square&logo=linux&logoColor=white)
 &nbsp;
 [![Donate via UPI](https://img.shields.io/badge/Donate-UPI-blue?logo=googlepay&style=for-the-badge)](https://upier.vercel.app/pay/sanmith@superyes)
 
