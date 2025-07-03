@@ -1,3 +1,4 @@
+cd /d "%~dp0\.."
 @echo off
 echo ========================================
 echo Building MetaSort for Windows
