@@ -25,7 +25,7 @@ if %errorlevel% neq 0 (
     echo ❌ ExifTool is not installed.
     echo.
     echo Installing ExifTool using winget...
-    winget install ExifTool.ExifTool
+    winget install -e --id OliverBetz.ExifTool
     if %errorlevel% neq 0 (
         echo.
         echo Winget installation failed. Trying Chocolatey...
